@@ -99,4 +99,24 @@ The process can be uploaded to the target environment via Modeler → BPMN → I
 
 ## 2.Process Update (Version Management)
 
+When you need to modify a process:
 
+![照片描述](./image/Process Update1.png)
+
+Click the corresponding update for this process to enter the modification interface.
+
+![照片描述](./image/Process Update2.png)
+
+Then click update. The main Deploy page will display the modified process, with the version set to 2.
+
+![照片描述](./image/Process Update3.png)
+
+Next, enter the configuration of the previous version (version 1). For each node, disconnect the mapping/outbound/connector.
+
+![照片描述](./image/Process Update4.png)
+
+Finally, connect the mapping/outbound/connector from version 3 to the new version process nodes, or modify/add new mapping/outbound/connector to the new version process nodes. At this point, the process update is complete.
+
+![照片描述](./image/Process Update5.png)
+
+Note: If you want to delete the old version of the process, be sure to confirm that all incidents for this version in history → system log are stopped before deleting this version; otherwise, the deletion will fail.
