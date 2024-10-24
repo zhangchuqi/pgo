@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <!-- 后续通过js切换 -->
+  <link rel="stylesheet" href="./notebook_asset/css/vue.css" id="cssHref">
+  <!-- 暗夜主题 -->
+  <!-- <link rel="stylesheet" href="./notebook_asset/css/dark.css"> -->
+  <!-- 白偏蓝主题 -->
+  <!-- <link rel="stylesheet" id="cssHref" href="./notebook_asset/css/buble.css"> -->
+
+  <link rel="stylesheet" href="./notebook_asset/css/me.css">
+
+</head>
+
+<body>
+ 
+  <!-- 目录树 -->
+  <div id="elementapp">
+
+    <el-dialog title="目录" :visible.sync="dialogVisible">
+      <!-- 搜素 -->
+      <el-input placeholder="搜索" v-model="filterText" ref="inputVal" autofocus="autofocus" clearable></el-input>
+      <!-- 文件树 -->
+      <el-tree :data="data" :props="defaultProps" :filter-node-method="filterNode" ref="tree"
+        @node-click="handleNodeClick">
+        <span slot-scope="{ node, data }">
+          <i :class="{
+              'el-icon-document': data.type == 1 || !data.type,
+              'el-icon-folder': data.type == 2 && !node.expanded,
+              'el-icon-folder-opened': data.type == 2 && node.expanded
+            }"></i>
+          <span style="padding-left: 4px;">{{node.label}}</span>
+        </span>
+      </el-tree>
+    </el-dialog>
+    <el-dialog title="全局搜索" :visible.sync="isSearch">
+      <!-- 搜素 -->
+      <el-input placeholder="输入标题进行搜索" v-model="filterText1" ref="inputVal1" autofocus="autofocus" clearable>
+      </el-input>
+      <div id="meSearchList">
+
+        <a class="me_search_item" v-for="(item, index) in searchArr" @click="isSearch=false" :href="item.url">
+          <h3>{{item.label}}<em class="mesurl">({{item.url}})</em></h3>
+          <div v-html="item.content"></div>
+          <el-divider></el-divider>
+        </a>
+      </div>
+
+    </el-dialog>
+  </div>
+
+
+  <div id="app"></div>
+  <div class="mebox">
+    <!-- 右下叫按钮开始 -->
+    <div class="btn-group">
+      <a class="btn mecontent" onclick="app.saveSearch()"><i class="el-icon-search"></i><span
+          style="font-size:0.5rem;">搜索</span></a>
+      <a class="btn mecontent" onclick="app.saveDialogVisible()"><i class="el-icon-reading"></i><span
+          style="font-size:0.5rem;">目录</span></a>
+      <!-- 刷新开始 -->
+      <a class="btn refresh"><i class="el-icon-refresh"></i><span style="font-size:0.5rem;">刷新</span></a>
+      <!-- 刷新结束 -->
+      <!-- 回到顶部开始 -->
+      <a class="btn toTop"><i class="el-icon-arrow-up"></i><span style="font-size:0.5rem;">顶部</span></a>
+      <!-- 回到顶部结束 -->
+    </div>
+    <!-- 右上角按钮主题切换 -->
+    <img id="bgchange" src="./notebook_asset/img/guang.png" />
+    <!-- 侧边栏拖拽 -->
+    <!--<div class="meside"></div>-->
+ 
+  </div>
+
+  <script type="text/javascript">
+
+    var docsify = window.$docsify = {
+      // name: 'java',
+      // repo: 'https://gitee.com/coderwcb',
+      loadSidebar: false, // 必须添加-是否加载sidebar
+      subMaxLevel: 1, // 侧边栏最高层数.但是 一级标题不显示
+      loadNavbar: true, // 顶部导航
+      // hideSidebar: true, // 这个选项用来完全隐藏侧边栏，侧边栏的任何内容都不会被渲染。
+      topMargin: 30, // 点击锚点距离顶部距离
+      // 自定义组件
+      hideDropdownAll: true, // 开始是否折叠所有
+
+      showNumRouter: [], //需要显示标题的文档 配合my-plugin.js
+    }
+  </script>
+
+</body>
+
+</html>
+<script src="./notebook_asset/js/docsify.min.js"></script>
+<script src="./notebook_asset/js/prism-java.js"></script> <!-- java代码高亮 -->
+<script src="./notebook_asset/js/prism-sql.min.js"></script> <!-- java代码高亮 -->
+<script src="./notebook_asset/js/prism-bash.min.js"></script> <!-- java代码高亮 -->
+<script src="./notebook_asset/js/prism-powershell.min.js"></script> <!-- java代码高亮 -->
+<script src="./notebook_asset/js/prism-properties.min.js"></script> <!-- java代码高亮 -->
+<script src="./notebook_asset/js/zoom-image.min.js"></script> <!-- 图片缩放 -->
+<script src="./notebook_asset/js/docsify-copy-code.min.js"></script> <!-- 代码复制 -->
+<script src="./notebook_asset/js/jquery.js"></script>
+<!-- <script src="./notebook_asset/js/elasticsearch.jquery.js"></script> -->
+  <!-- element ui相关组件 -->
+  <script src="./notebook_asset/elementui/vue.js"></script>
+  <!-- 引入样式 -->
+  <link rel="stylesheet" href="./notebook_asset/elementui/elementui-2.15.8.css">
+  <!-- 引入组件库 -->
+  <script src="./notebook_asset/elementui/elementuijs.js"></script>
+
+  <!-- 搜索功能（支持大小写） -->
+  <script src="./notebook_asset/js/cnchar.all.min.js"></script>
+  <!-- element 相关js -->
+  <script src="./notebook_asset/js/me-fn.js"></script>
+  <script src="./notebook_asset/js/me-plugin.js"></script>
+
+  <script>
+    var app = new Vue({
+      el: '#elementapp',
+      data() {
+        return {
+          dialogVisible: false, // 默认是否显示弹窗
+          isSearch: false,
+          filterText: '',
+          filterText1: '',
+          data: [],
+
+          defaultProps: {
+            children: 'children',
+            label: 'label'
+          },
+          searchArr: [],
+        };
+      },
+      watch: {
+        // 标题搜索
+        filterText(val) {
+          this.$refs.tree.filter(val);
+        },
+
+        // 全局搜素
+        filterText1(val) {
+          this.searchArr = []
+          if (val.trim() == "") {
+            return
+          }
+          var strArr = this.filterText1.split(" ").filter(v => v.trim() != "")
+          // strArr.forEach(v => {
+          //   var reg1 =   new RegExp("(" + v + ")", "i");
+          // });
+
+          // var reg = new RegExp("^" + strArr.map(v => "(?=.*" + v + ")").join("") + ".*$", "img");
+          // console.log(reg);
+
+          for (const url in searchData) {
+            // 获取每个文章的内容
+            var data = searchData[url]
+            // 判断要搜索的内容是否在文章里有
+            var isExist = true
+            for (let i = 0; i < strArr.length; i++) {
+              const v = strArr[i];
+              if (data.toUpperCase().indexOf(v.toUpperCase()) == -1) {
+                isExist = false;
+                break;
+              }
+            }
+
+            if (isExist) {
+              var stri = data.toLowerCase().indexOf(strArr[0].toLowerCase())
+              var content = data.substr(stri, 150)
+
+              var reg2 = new RegExp("(" + strArr.join("|") + ")", "igm");
+              var replaceStr = content.replace(reg2, "<span style='color:red;font-weight:bold'>$1</span>")
+
+              this.searchArr.push({
+                label: url.substr(url.lastIndexOf("/") + 1).replace(".md", ""),
+                url: "#" + url,
+                content: replaceStr
+              })
+            }
+          }
+        },
+
+      },
+      methods: {
+        filterNode(value, data) {
+          if (!value) return true
+          if (data.label.indexOf(value) !== -1) return true
+
+          // 小写拼音搜索
+          // 将label拆散成小写拼音数组
+          const arr = data.label.spell('low', 'array')
+          // 拼接成完整label的拼音
+          const spell = arr.join('')
+          // lengths 是label完整拼音 中每个汉字第一个拼音字母的index值的数组
+          const lengths = [0]
+          for (var i = 0; i < arr.length - 1; i++) {
+            lengths.push(lengths[i] + arr[i].length)
+          }
+          // 判断label完整拼音 中 输入值的 index 是不是等于某个汉字第一个拼音字母的index值
+          if (lengths.indexOf(spell.indexOf(value)) !== -1) return true
+
+          // 大写拼音搜索
+          // 将label拆散成小写拼音数组
+          const arrUp = data.label.spell('up', 'array')
+          // 拼接成完整label的拼音
+          const spellUp = arrUp.join('')
+          // lengths 是label完整拼音 中每个汉字第一个拼音字母的index值的数组
+          const lengthsUp = [0]
+          for (var i = 0; i < arrUp.length - 1; i++) {
+            lengthsUp.push(lengthsUp[i] + arrUp[i].length)
+          }
+          // 判断label完整拼音 中 输入值的 index 是不是等于某个汉字第一个拼音字母的index值
+          return lengthsUp.indexOf(spellUp.indexOf(value)) !== -1
+        },
+        handleNodeClick(data, a, b) {
+          var {
+            type
+          } = a.data;
+          var {
+            label
+          } = a.data;
+          var {
+            url
+          } = a.data;
+          // 如果类型为空 或者为1，呢么就认为这个是一个链接需要跳转
+          if (type == 1 || !type) {
+            this.saveDialogVisible();
+            window.location.href = "#" + url;
+          }
+        },
+        saveDialogVisible() {
+          // 不加定时器无效
+          setTimeout(() => {
+            this.$refs.inputVal.focus();
+          }, 0)
+          this.dialogVisible ? this.dialogVisible = false : this.dialogVisible = true;
+        },
+        saveSearch() {
+          // 不加定时器无效
+          setTimeout(() => {
+            this.$refs.inputVal1.focus();
+          }, 0)
+          this.isSearch ? this.isSearch = false : this.isSearch = true;
+        },
+        async search() {
+          var time = localStorage.getItem("docsify_search_time")
+          if (time && Date.now() - time < 1000 * 60 * 60 * 12) {
+            searchData = JSON.parse(localStorage.getItem("docsify_search_data"))
+            return
+          } else {
+            localStorage.setItem("docsify_search_time", Date.now())
+          }
+          console.log("正在更新缓存数据");
+
+
+          var json = await request("content.json", {})
+          var sidebarArr = []
+          getEveryJson(json, sidebarArr)
+
+          // 补全路径
+          for (let i = 0; i < sidebarArr.length; i++) {
+            sidebarArr[i].url = getFullPath(sidebarArr[i].url)
+          }
+
+          // 判断当前数据在缓存中是否存在
+          localStorage.setItem("docsify_search_data", JSON.stringify({}))
+          var searchDataObj = {}
+          for (let i = 0; i < sidebarArr.length; i++) {
+            try {
+
+              searchDataObj[sidebarArr[i].url] = await request(sidebarArr[i].url, {})
+            } catch {}
+          }
+          searchData = searchDataObj
+          localStorage.setItem("docsify_search_data", JSON.stringify(searchDataObj))
+          console.log("缓存数据已更新");
+        }
+      },
+      created() {
+        this.search()
+      },
+      mounted() {
+        // 加载目录
+        request("content.json", {}).then(res => {
+          this.data = res
+        })
+      }
+
+    })
+  </script>
+
+
+<!--   快捷键触发    -->
+<script>
+  // 快捷键弹窗
+  $(window).keydown(function (event) {
+    // 监听 alt + 1 目录
+    if (event.altKey && event.keyCode == 49) {
+      app.saveDialogVisible()
+    }
+
+    //  监听 alt + 2 侧边栏显示隐藏
+    if (event.altKey && event.keyCode == 50) {
+      initMoveX()
+    }
+
+    // 监听 alt + 3 全局搜索
+    if (event.altKey && event.keyCode == 51) {
+      app.saveSearch()
+    }
+  });
+</script>
+
+<script>
+
+</script>
