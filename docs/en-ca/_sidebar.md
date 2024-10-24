@@ -2,7 +2,7 @@
 
 - Process Go Plus
 
-  * [process_creation&update](/en-ca/processCreationUpdate.md)
+  * [Process Creation&Update](/en-ca/processCreationUpdate.md)
   * [Binding Programs/Configuration to Process Nodes](/en-ca/BindingProgramsConfigurationtoProcessNodes.md)
   * [Process Triggering and Deletion](/en-ca/processCreationUpdate.md)
   * [Connector Package Features and Handling](/en-ca/processCreationUpdate.md)
