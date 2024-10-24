@@ -81,7 +81,7 @@ When a process may experience delays or access failures after a certain node due
 
 Attribute configuration:
 
-![照片描述](./image/Automatic Process Retry3.png)
+![照片描述](./image/AutomaticProcessRetry3.png)
 
 ### 1.4、Process Download and Upload
 
@@ -95,7 +95,7 @@ The process can be exported and downloaded locally:
 
 The process can be uploaded to the target environment via Modeler → BPMN → Import.
 
-![照片描述](./image/Process Download and Upload4.png)
+![照片描述](./image/ProcessDownloadandUpload4.png)
 
 ## 2.Process Update (Version Management)
 
