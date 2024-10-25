@@ -42,3 +42,62 @@ Asynchronous Start URL (Figure 1):
 }
 ```
 
+![照片描述](./image/WebAPI3.png)
+
+***
+
+Synchronous Start URL (Figure 2):
+
+1. Users need to log in to the backend URL to obtain a Token (for specific login information, please consult a PGO representative).
+
+2. After obtaining the Token, place it in the Header.
+
+3. Insert the Sync-Trigger URL into the URL field and change the start mode to POST.
+
+4. Place the data in the Body and send it.
+
+5. The process will not stop until the entire flow is completed, receiving the return information.
+
+ > [!tip] The return information in data can be edited according to the specific requirements of the customer:
+
+```
+{
+    "data": {
+        "Status": "Fail",
+        "Message": "Reference Document PurchNoC is already exist"
+    },
+    "status": "OK",
+    "code": 200,
+    "msg": "success"
+}
+```
+***
+
+## GCP File Monitor
+
+The file monitoring function is used for real-time monitoring and processing of files in a specified directory.
+
+![照片描述](./image/GCPFileMonitor.png)
+
+Required Configuration Items:
+
++ ***File Path:*** Select the file path to be monitored, which can be configured and bound using a visual button.
+
+![照片描述](./image/GCPFileMonitor2.png)
+
++ ***File Pattern:*** Set the filename format of the monitored files to effectively avoid monitoring junk files, etc.
+
+***
+
+## Timer
+
+The timer function is used for periodically executing tasks or programs.
+
+![照片描述](./image/timer1.png)
+
+Required Configuration Items:
+
+ > [!note] ***Schedule:*** Use Cron Job syntax in the scheduled execution configuration item (Schedule).
+
+
+
