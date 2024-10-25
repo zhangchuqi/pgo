@@ -62,7 +62,7 @@ Each process ends with an End Event node.
 
 ### 1.3、Creation of Special Process Nodes
 
-####Splitting Sub-Processes
+#### Splitting Sub-Processes
 
 
 
@@ -84,7 +84,7 @@ Note: After deploying the process, fill in the Element Variable in the Variables
 
 ***
 
-####Automatic Process Retry
+#### Automatic Process Retry
 
 When a process may experience delays or access failures after a certain node due to network issues or other non-subjective problems, and the business requires the process to be automatically retried, you can configure a timer node after this node. The node type is as follows:
 
@@ -136,4 +136,4 @@ Finally, connect the mapping/outbound/connector from version 3 to the new versio
 
 ![照片描述](./image/ProcessUpdate5.png)
 
-Note: If you want to delete the old version of the process, be sure to confirm that all incidents for this version in history → system log are stopped before deleting this version; otherwise, the deletion will fail.
+ > [!note]  If you want to delete the old version of the process, be sure to confirm that all incidents for this version in history → system log are stopped before deleting this version; otherwise, the deletion will fail.

@@ -2,7 +2,7 @@
 
 # PGO Plus Documentation Center
 
-[PGO Plus](README.md)
+[PGO Plus](./en-ca/README.md)
 [AP/AR]()
 [WMS]()
 [OMS]()
