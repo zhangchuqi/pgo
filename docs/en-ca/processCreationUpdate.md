@@ -12,6 +12,7 @@ BPMN Process Knowledge Documentation (Camunda Official Website):
 
 ![照片描述](./image/new.png)
 
+***
 
 ### 1.2、Node Functions and Attributes
 #### Start Node
@@ -19,6 +20,8 @@ BPMN Process Knowledge Documentation (Camunda Official Website):
 Each process begins with a StartEvent node
 
 ![照片描述](./image/startEvent.png)
+
+***
 
 #### Task Node
 
@@ -30,6 +33,8 @@ For each task node, different actions are performed to meet various requirements
 Service Task attribute settings.
 
 ![照片描述](./image/TaskNode2.png)
+
+***
 
 #### Getway
 Handle different business processes based on various conditions, using gateways to manage different business branches.
@@ -45,15 +50,21 @@ Gateway attribute settings:
 
 ![照片描述](./image/Gateway3.png)
 
+***
+
 #### End Node
 
 Each process ends with an End Event node.
 
 ![照片描述](./image/EndNode.png)
 
+***
+
 ### 1.3、Creation of Special Process Nodes
 
 ####Splitting Sub-Processes
+
+
 
 When there are multiple business data entries that need to be processed in parallel individually, you can set the Task node type to Call Activity and parallel Multi Instance.
 
@@ -71,6 +82,8 @@ Note: After deploying the process, fill in the Element Variable in the Variables
 
 ![照片描述](./image/SplittingSub-Processes5.png)
 
+***
+
 ####Automatic Process Retry
 
 When a process may experience delays or access failures after a certain node due to network issues or other non-subjective problems, and the business requires the process to be automatically retried, you can configure a timer node after this node. The node type is as follows:
@@ -82,6 +95,8 @@ When a process may experience delays or access failures after a certain node due
 Attribute configuration:
 
 ![照片描述](./image/AutomaticProcessRetry3.png)
+
+***
 
 ### 1.4、Process Download and Upload
 
@@ -96,6 +111,8 @@ The process can be exported and downloaded locally:
 The process can be uploaded to the target environment via Modeler → BPMN → Import.
 
 ![照片描述](./image/ProcessDownloadandUpload4.png)
+
+***
 
 ## 2.Process Update (Version Management)
 
