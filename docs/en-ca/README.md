@@ -15,3 +15,5 @@
   * [Monitoring/Log Time Zone](/en-ca/processCreationUpdate.md)
 
   * [Webhook Configuration Instructions](/en-ca/processCreationUpdate.md)
+
+  * [Files Center](/en-ca/pdfs)

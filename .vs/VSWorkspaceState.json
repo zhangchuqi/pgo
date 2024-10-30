@@ -3,8 +3,9 @@
     "",
     "\\docs",
     "\\docs\\en-ca",
+    "\\docs\\zh-cn",
     "\\docs\\zh-cn\\image"
   ],
-  "SelectedNode": "\\docs\\index.html",
+  "SelectedNode": "\\docs\\en-ca\\BindingProgramsConfigurationtoProcessNodes.md",
   "PreviewInSolutionExplorer": false
 }
